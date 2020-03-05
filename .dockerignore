@@ -1,0 +1,31 @@
+# Don't package terraform templates with docker image
+tf_*
+
+# git shtuff
+.git
+.gitignore
+**/README.md
+
+# Don't package tests
+**/test
+
+# Rails
+.env
+.env.sample
+*.rbc
+capybara-*.html
+log
+tmp
+db/*.sqlite3
+db/*.sqlite3-journal
+public/system
+coverage/
+spec/tmp
+**.orig
+
+.bundle
+.rubocop.yml
+.ruby-version
+.ruby-gemset
+
+.rvmrc

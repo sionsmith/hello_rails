@@ -1,0 +1,5 @@
+# Adjusted only where needed to have a default rails app pass
+Metrics/LineLength:
+  Max: 120 # Default: 80
+Metrics/MethodLength:
+  Max: 15 # Default: 10

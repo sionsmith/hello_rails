@@ -1,0 +1,65 @@
+name: Build an Test App
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - tf_infra
+      - tf_k8s
+  pull_request:
+    branches:
+      - master
+    paths-ignore:
+      - tf_infra
+      - tf_k8s
+
+jobs:
+#  checkout:
+#    name: Checkout Code
+#    runs-on: ubuntu-18.04
+#    steps:
+#      - name: git_checkout
+#        uses: actions/checkout@v2
+
+  style:
+    name: Lint Code
+#    needs: checkout
+    runs-on: ubuntu-18.04
+    steps:
+      - name: rubocop
+        uses:  gimenete/rubocop-action@1.0
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+#  test_app:
+#    name: Run application tests
+#    needs: style
+#    runs-on: ubuntu-18.04
+#    steps:
+#      - name: capybara # This is how rails is tested, rigth? o.O
+#        uses: nothin # I'ma need to publish something or build a private action
+
+  docker_build_push:
+    name: Build and push docker image
+#    needs: test_app
+    runs-on: ubuntu-18.04
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+
+    - name: Build and Push
+      uses: kciter/aws-ecr-action@v1
+      env:
+        repo: bobs_default_ecr_repo
+      with:
+        access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        account_id: ${{ secrets.AWS_ACCOUNT_ID }}
+        repo: ${{ env.repo }}
+        region: us-east-1
+        tags: latest,${{ github.sha }}
+
+#  test_integration:
+#    name: Integration testing
+#    needs: [style, test_tf_infra, test_tf_k8s]
+#    runs-on: ubuntu-18.04 

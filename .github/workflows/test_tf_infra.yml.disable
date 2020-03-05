@@ -1,0 +1,40 @@
+name: Test TF infra
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'tf_infra/*'
+      - 'tf_k8s/*'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'tf_infra/*'
+      - 'tf_k8s/*'
+
+  style:
+    name: terraform format
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - uses: marocchino/setup-terraform@v1
+        with:
+          version: "0.12.21"
+      - run: terraform fmt -check -recursive
+
+  test_tf_infra:
+    name: Run Terraform Infra tests
+    needs: style
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: marocchino/setup-terraform@v1
+        with:
+          version: "0.12.21"
+      
+
+  test_tf_k8s:
+    name: Run Terraform K8S tests
+    needs: test_tf_infra
+    runs-on: ubuntu-18.04
+

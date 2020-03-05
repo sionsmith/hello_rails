@@ -1,0 +1,14 @@
+# frozen_string_literal: true
+
+require 'test_helper'
+
+# Defautl rails tests
+class ApplicationCable::ConnectionTest < ActionCable::Connection::TestCase # rubocop:disable Style/ClassAndModuleChildren
+  # test "connects with cookies" do
+  #   cookies.signed[:user_id] = 42
+  #
+  #   connect
+  #
+  #   assert_equal connection.user_id, "42"
+  # end
+end
