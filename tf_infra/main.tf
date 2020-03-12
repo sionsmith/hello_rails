@@ -204,6 +204,19 @@ resource "aws_route53_record" "k8s" {
 #  depends_on = [aws_route53_record.k8s]
 #}
 
+resource "aws_ecr_repository" "hello_rails" {
+  name = "hello_rails"
+  image_tag_mutability = "IMMUTABLE"
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+  tags = {
+    Name = "hello_rails"
+    TFState = "S3"
+    Terraform = "True"
+  }  
+}
+
 resource "aws_eks_fargate_profile" "k8s" {
   cluster_name           = aws_eks_cluster.k8s.name
   fargate_profile_name   = join("-", [var.name_prefix, "k8s", terraform.workspace])

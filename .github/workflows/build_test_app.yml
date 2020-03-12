@@ -26,6 +26,8 @@ jobs:
 #    needs: checkout
     runs-on: ubuntu-18.04
     steps:
+      - name: Checkout
+        uses: actions/checkout@master
       - name: rubocop
         uses:  gimenete/rubocop-action@1.0
         env:
@@ -50,7 +52,7 @@ jobs:
     - name: Build and Push
       uses: kciter/aws-ecr-action@v1
       env:
-        repo: bobs_default_ecr_repo
+        repo: hello_rails
       with:
         access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
