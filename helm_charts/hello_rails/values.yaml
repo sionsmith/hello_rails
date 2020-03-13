@@ -1,0 +1,45 @@
+# Default values for hello_rails.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+replicaCount: 1
+fullnameOverride: hello-rails
+#nameOverride: hello-rails
+image:
+  repository: hello_rails
+  pullPolicy: IfNotPresent
+  tag: 0.1.0
+
+# Fargate will handle login
+# EC2 machines would need an IAM profile with rights on ECR
+imagePullSecrets: []
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: # Default is fine
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+#  capabilities:
+#    drop:
+#      - ALL
+#  readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+ingress: {}
+
+service:
+  type: NodePort
+  port: 80
+  targetPort: 3000
+
+resources:
+ limits:
+   cpu: 100m
+   memory: 128Mi
+ requests:
+   cpu: 100m
+   memory: 128Mi
